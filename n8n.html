@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OTTO ESSENTIALS </title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2, h3 {
+      color: #333;
+    }
+
+    form {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 10px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 12px;
+      color: #444;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 3px rgba(0, 123, 255, 0.3);
+    }
+
+    .order-item {
+      border: 1px solid #ddd;
+      background: #fafafa;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    button[type="button"] {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    button[type="submit"] {
+      background-color: #007bff;
+      color: white;
+      width: 100%;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    hr {
+      margin: 25px 0;
+      border: none;
+      height: 1px;
+      background-color: #ddd;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 style="text-align:center;">Raise Credit Approval Request</h2>
+
+  <form action="https://wowflo.io/webhook/194c8d82-eb8d-4599-b6a2-c0343a55d566" method="POST" enctype="multipart/form-data">
+
+    <label>Customer Name:</label>
+    <input type="text" name="customer_name" required>
+
+    <label>Order Date:</label>
+    <input type="date" name="order_date" required>
+
+    <label>Order ID:</label>
+    <input type="text" name="order_id" required>
+
+    <h3>Order Details</h3>
+    <div id="order-items">
+      <div class="order-item">
+        <label>Category:</label>
+        <select name="category[]">
+          <option value="Vest">Vest</option>
+          <option value="Brief">Brief</option>
+          <option value="Trunk">Trunk</option>
+          <option value="Shorts">Shorts</option>
+          <option value="Track">Track</option>
+          <option value="T-Shirt">T-Shirt</option>
+        </select>
+
+        <label>Quantity:</label>
+        <input type="number" name="quantity[]" min="1" required>
+
+        <label>Amount:</label>
+        <input type="number" name="amount[]" step="0.01" required>
+      </div>
+    </div>
+
+    <button type="button" onclick="addOrderItem()">+ Add More Items</button>
+
+    <hr>
+
+    <label>Executive Name:</label>
+    <input type="text" name="executive_name">
+
+    <label>State:</label>
+    <select name="state" id="stateSelect" required onchange="checkState()">
+      <option value="">Select State</option>
+      <option>Tamil Nadu</option>
+      <option>Kerala</option>
+      <option>Karnataka</option>
+      <option>Andhra Pradesh</option>
+      <option>Telangana</option>
+      <option>Maharashtra</option>
+      <option>Delhi</option>
+      <option>Gujarat</option>
+      <option>Punjab</option>
+      <option>West Bengal</option>
+      <option>Others</option>
+    </select>
+
+    <div id="agmMailDiv" class="hidden">
+      <label>AGM Mail ID:</label>
+      <input type="email" name="agm_mail" placeholder="Enter AGM mail ID">
+    </div>
+
+    <h3>Payment Summary</h3>
+
+    <label>Payment Follow-up Date:</label>
+    <input type="datetime-local" name="payment_followup_date" required>
+
+    <label>Amount:</label>
+    <input type="number" name="payment_amount" step="0.01">
+
+    <label>Days of Pending Amount:</label>
+    <input type="number" name="pending_days">
+
+    <label>Cheque No:</label>
+    <input type="text" name="cheque_no">
+
+    <label>Payment Mode:</label>
+    <select name="payment_mode">
+      <option>Cheque</option>
+      <option>Cash</option>
+      <option>Bank Transfer</option>
+      <option>UPI</option>
+    </select>
+
+    <label>Attachments (PDF/JPG):</label>
+    <input type="file" name="attachment" accept=".pdf, .jpg, .jpeg" multiple>
+
+    <label>From Mail ID:</label>
+    <input type="email" name="from_mail" placeholder="Enter Your Mail ID">
+
+    <label>To Mail ID:</label>
+    <input type="email" name="to_mail" placeholder="Enter RSM Mail ID">
+
+    <br><br>
+    <button type="submit">Submit Order</button>
+  </form>
+
+  <script>
+    function addOrderItem() {
+      const container = document.getElementById('order-items');
+      const item = document.createElement('div');
+      item.classList.add('order-item');
+      item.innerHTML = `
+        <label>Category:</label>
+        <select name="category[]">
+          <option value="Vest">Vest</option>
+          <option value="Brief">Brief</option>
+          <option value="Trunk">Trunk</option>
+          <option value="Shorts">Shorts</option>
+          <option value="Track">Track</option>
+          <option value="T-Shirt">T-Shirt</option>
+        </select>
+
+        <label>Quantity:</label>
+        <input type="number" name="quantity[]" min="1" required>
+
+        <label>Amount:</label>
+        <input type="number" name="amount[]" step="0.01" required>
+      `;
+      container.appendChild(item);
+    }
+
+    function checkState() {
+      const state = document.getElementById('stateSelect').value;
+      const agmDiv = document.getElementById('agmMailDiv');
+      if (state && state !== 'Tamil Nadu') {
+        agmDiv.classList.remove('hidden');
+      } else {
+        agmDiv.classList.add('hidden');
+      }
+    }
+  </script>
+
+</body>
+</html>
